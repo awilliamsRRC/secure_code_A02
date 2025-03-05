@@ -15,18 +15,18 @@ jobs:
     steps:
     # Checkout the code
     - name: Checkout code
-      uses: actions/checkout@v4  # Ensure the correct version
+      uses: actions/checkout@v4
 
     # Set up CodeQL
     - name: Set up CodeQL
-      uses: github/codeql-action/setup@v2  # Ensure correct action version
+      uses: github/codeql-action/setup@latest  # Use the latest version
 
     # Initialize the CodeQL database
     - name: Initialize CodeQL database
-      uses: github/codeql-action/init@v2
+      uses: github/codeql-action/init@latest  # Use the latest version
       with:
         languages: python, javascript  # Specify the languages to analyze
 
     # Analyze the code with CodeQL
     - name: Analyze with CodeQL
-      uses: github/codeql-action/analyze@v2
+      uses: github/codeql-action/analyze@latest  # Use the latest version
