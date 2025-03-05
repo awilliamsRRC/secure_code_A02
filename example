@@ -1,0 +1,13 @@
+-- example.sql
+
+-- Example of a vulnerable SQL query (SQL Injection)
+SELECT * FROM users WHERE username = '$username' AND password = '$password';
+
+-- Another example: not using prepared statements or parameterized queries
+INSERT INTO users (username, password) VALUES ('$username', '$password');
+
+-- Vulnerable DELETE query
+DELETE FROM users WHERE user_id = $user_id;
+
+-- More examples of improper SQL handling
+UPDATE users SET password = '$new_password' WHERE username = '$username';
