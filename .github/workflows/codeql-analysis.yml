@@ -1,4 +1,4 @@
-name: CodeQL
+name: CodeQL Analysis
 
 on:
   push:
@@ -11,22 +11,17 @@ on:
 jobs:
   analyze:
     runs-on: ubuntu-latest
-
     steps:
-    # Checkout the code
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    # Set up CodeQL
-    - name: Set up CodeQL
-      uses: github/codeql-action/setup@latest  # Use the latest version
+      - name: Set up CodeQL
+        uses: github/codeql-action/setup@latest  # Ensure the latest version is being used
 
-    # Initialize the CodeQL database
-    - name: Initialize CodeQL database
-      uses: github/codeql-action/init@latest  # Use the latest version
-      with:
-        languages: python, javascript  # Specify the languages to analyze
+      - name: Initialize CodeQL database
+        uses: github/codeql-action/init@latest  # Initialize with the latest version
+        with:
+          languages: python, javascript, java, go  # Add languages to analyze
 
-    # Analyze the code with CodeQL
-    - name: Analyze with CodeQL
-      uses: github/codeql-action/analyze@latest  # Use the latest version
+      - name: Perform CodeQL analysis
+        uses: github/codeql-action/analyze@latest  # Use the latest stable version
