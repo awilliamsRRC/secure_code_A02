@@ -1,0 +1,19 @@
+/* example.css */
+
+/* Insecurely embedded font from an untrusted source (A3 - Sensitive Data Exposure) */
+@font-face {
+  font-family: 'MaliciousFont';
+  src: url('http://example.com/malicious-font.ttf');
+}
+
+/* Insecure styling: Hiding content (A7 - Cross-Site Scripting) */
+.hidden-content {
+  visibility: hidden; /* Hidden content could be abused for malicious purposes */
+}
+
+/* Inline JavaScript via background image (A1 - Injection) */
+.body-background {
+  background-image: url('javascript:alert("XSS")');
+}
+
+/* Overly permissive CORS (Cross-Origin
