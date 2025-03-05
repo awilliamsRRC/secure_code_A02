@@ -3,23 +3,30 @@ name: CodeQL
 on:
   push:
     branches:
-      - main  # Or your default branch
+      - main  # or your default branch
   pull_request:
     branches:
-      - main  # Or your default branch
+      - main  # or your default branch
 
 jobs:
   analyze:
     runs-on: ubuntu-latest
 
     steps:
+    # Checkout the code
     - name: Checkout code
-      uses: actions/checkout@v4
+      uses: actions/checkout@v4  # Ensure the correct version
 
+    # Set up CodeQL
     - name: Set up CodeQL
-      uses: github/codeql-action/setup@v2
+      uses: github/codeql-action/setup@v2  # Ensure correct action version
 
+    # Initialize the CodeQL database
+    - name: Initialize CodeQL database
+      uses: github/codeql-action/init@v2
+      with:
+        languages: python, javascript  # Specify the languages to analyze
+
+    # Analyze the code with CodeQL
     - name: Analyze with CodeQL
       uses: github/codeql-action/analyze@v2
-      with:
-        config-file: .github/codeql/codeql-config.yml  # Optional: Specify a custom config file
