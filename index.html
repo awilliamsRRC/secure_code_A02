@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OWASP Vulnerability Demo</title>
+  <!-- Missing Content-Security-Policy Header (A1 - Injection) -->
+</head>
+<body>
+  <h1>Welcome to My Insecure Website</h1>
+  
+  <div id="output"></div>
+  <button onclick="showAlert()">Click Me</button>
+
+  <!-- Example of Insecure Iframe (A5 - Security Misconfiguration) -->
+  <iframe src="http://example.com" width="600" height="400"></iframe>
+
+  <script>
+    // Example of Cross-Site Scripting (XSS) vulnerability (A7 - Cross-Site Scripting (XSS))
+    let userInput = "<script>alert('XSS Attack');</script>";
+    document.getElementById("output").innerHTML = userInput;
+
+    // Example of unsafe use of eval() (A1 - Injection)
+    let userCode = "alert('Injected code')";
+    eval(userCode);
+  </script>
+</body>
+</html>
