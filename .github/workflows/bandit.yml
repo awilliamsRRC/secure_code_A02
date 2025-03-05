@@ -10,40 +10,42 @@
 # https://github.com/marketplace/actions/bandit-scan is ISC licensed, by abirismyname
 # https://pypi.org/project/bandit/ is Apache v2.0 licensed, by PyCQA
 
-name: Bandit Security Scan
-
+name: Bandit
 on:
   push:
-    branches:
-      - main  # Trigger the workflow on push to the 'main' branch
+    branches: [ $default-branch, $protected-branches ]
   pull_request:
-    branches:
-      - main  # Trigger the workflow on pull requests to 'main'
+    # The branches below must be a subset of the branches above
+    branches: [ $default-branch ]
   schedule:
-    - cron: '0 0 * * 0'  # Run weekly at midnight on Sunday (UTC)
+    - cron: $cron-weekly
 
 jobs:
   bandit:
-    runs-on: ubuntu-latest  # The environment to run the workflow
     permissions:
-      contents: read  # Required for GitHub Actions to access the repository code
-      security-events: write  # Allow Bandit to create security events in the repository
-    
+      contents: read # for actions/checkout to fetch code
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+
+    runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4  # Checkout the code from the repository
-
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip
-          pip install bandit  # Install Bandit
-
-      - name: Run Bandit Security Linter
-        run: |
-          bandit -r . -f json -o bandit_report.json  # Run Bandit recursively from the current directory and generate a report
-          
-      - name: Upload Bandit Report as Artifact
-        uses: actions/upload-artifact@v4  # Ensure that this is correctly specified
-        with:
-          name: bandit-report
-          path: bandit_report.json  # Upload the Bandit report file as an artifact for review
+      - uses: actions/checkout@v4
+      - name: Bandit Scan
+        uses: shundor/python-bandit-scan@ab1d87dfccc5a0ffab88be3aaac6ffe35c10d6cd
+        with: # optional arguments
+          # exit with 0, even with results found
+          exit_zero: true # optional, default is DEFAULT
+          # Github token of the repository (automatically created by Github)
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Needed to get PR information.
+          # File or directory to run bandit on
+          # path: # optional, default is .
+          # Report only issues of a given severity level or higher. Can be LOW, MEDIUM or HIGH. Default is UNDEFINED (everything)
+          # level: # optional, default is UNDEFINED
+          # Report only issues of a given confidence level or higher. Can be LOW, MEDIUM or HIGH. Default is UNDEFINED (everything)
+          # confidence: # optional, default is UNDEFINED
+          # comma-separated list of paths (glob patterns supported) to exclude from scan (note that these are in addition to the excluded paths provided in the config file) (default: .svn,CVS,.bzr,.hg,.git,__pycache__,.tox,.eggs,*.egg)
+          # excluded_paths: # optional, default is DEFAULT
+          # comma-separated list of test IDs to skip
+          # skips: # optional, default is DEFAULT
+          # path to a .bandit file that supplies command line arguments
+          # ini_path: # optional, default is DEFAULT
