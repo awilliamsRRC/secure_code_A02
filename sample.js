@@ -1,4 +1,4 @@
-// Example of Insecure HTTP Requests (A3 - Sensitive Data Exposure)
+// Example of Insecure HTTP Requests (A3 - Sensitive Data Exposure) test
 fetch("http://example.com/api", {
   method: "POST",
   body: JSON.stringify({ username: "admin", password: "123456" })
