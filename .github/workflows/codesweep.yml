@@ -1,32 +1,16 @@
 name: "HCL AppScan CodeSweep"
-
 on:
   pull_request:
-    types: [opened, synchronize]  # Triggers the action when a PR is opened or updated
-
+    types: [opened,synchronize]
 jobs:
   scan:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2  # Using v2 for compatibility
+      - name: Checkout
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Ensures the full history is fetched, not just the latest commit
-
+          fetch-depth: 0
       - name: Run AppScan CodeSweep
-        uses: HCL-TECH-SOFTWARE/appscan-codesweep-action@v2.1  # Runs the AppScan CodeSweep action
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Provides the token for authentication
-          INPUT_ASOC_KEY: ${{ secrets.ASOC_KEY }}  # Your AppScan ASOC key
-          INPUT_ASOC_SECRET: ${{ secrets.ASOC_SECRET }}  # Your AppScan ASOC secret
-          INPUT_SERVICE_URL: ${{ secrets.SERVICE_URL }}  # AppScan service URL (if applicable)
-          INPUT_ACCEPTSSL: true  # Set to true if you want to accept SSL certificates
-          INPUT_STATUS: "open"  # Status filter for the scan
-          INPUT_PUBLISH_ON_MERGE: "true"  # Publish scan result on PR merge (optional)
-          INPUT_APPLICATION_ID: ${{ secrets.APPLICATION_ID }}  # Your AppScan application ID
-          INPUT_ISSUE_STATUS: "open"  # Issue status filter (optional)
-          INPUT_SCAN_BASE_NAME: "CodeSweep-Scan"  # Base name for the scan (optional)
-          INPUT_PERSONAL_SCAN: "false"  # Whether it's a personal scan or a shared scan (optional)
-
-      # Optionally, you can add another step to upload the results as a GitHub artifact or take further actions if needed.
+        uses: HCL-TECH-SOFTWARE/appscan-codesweep-action@v2.1
+    env: 
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
