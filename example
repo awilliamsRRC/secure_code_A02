@@ -1,4 +1,4 @@
--- example.sql
+-- example.sql file
 
 -- Example of a vulnerable SQL query (SQL Injection)
 SELECT * FROM users WHERE username = '$username' AND password = '$password';
