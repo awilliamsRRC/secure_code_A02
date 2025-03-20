@@ -1,22 +1,16 @@
 name: "HCL AppScan CodeSweep"
-
 on:
   pull_request:
-    types: [opened, synchronize]  # Triggers the action when a PR is opened or updated
-
+    types: [opened,synchronize]
 jobs:
   scan:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # Ensures the full history is fetched, not just the latest commit
-
+          fetch-depth: 0
       - name: Run AppScan CodeSweep
-        uses: HCL-TECH-SOFTWARE/appscan-codesweep-action@v2.1  # Runs the AppScan CodeSweep action
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Provides the token for authentication
-
-      # Optionally, you can add another step to upload the results as a GitHub artifact or take further actions if needed.
+        uses: HCL-TECH-SOFTWARE/appscan-codesweep-action@v2.1
+    env: 
+      GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
